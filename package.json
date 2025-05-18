@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "main": "tsc && node ./dist/main",
-    "test": "tsc && jest ./dist/test"
+    "test": "tsc && jest ./dist/test",
+    "services:database:up": "docker compose up -d",
+    "services:database:down": "docker compose down"
   },
   "keywords": [],
   "author": "",

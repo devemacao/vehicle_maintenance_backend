@@ -1,0 +1,10 @@
+services:
+  database:
+    container_name: "auto_check_dev"
+    image: "postgres:16.9-alpine3.21"
+    environment:
+      POSTGRES_PASSWORD: local_password
+      POSTGRES_DB: auto_check_local
+      POSTGRES_USER: local_user
+    ports:
+      - "5432:5432"
