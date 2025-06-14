@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "npx tsx --env-file=.env.development src/main.ts",
+    "dev": "tsx --env-file=.env.development src/main.ts",
     "main": "tsc && node ./dist/main",
     "test": "tsc && jest ./dist/test",
+    "migrations:create": "node-pg-migrate --migrations-dir src/migrations create",
+    "migrations:up": "node-pg-migrate --migrations-dir src/migrations --envPath .env.development up",
     "services:database:up": "docker compose up -d",
     "services:database:down": "docker compose down"
   },
@@ -16,6 +19,7 @@
   "dependencies": {
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "node-pg-migrate": "^8.0.2",
     "pg-promise": "^11.14.0"
   },
   "devDependencies": {
