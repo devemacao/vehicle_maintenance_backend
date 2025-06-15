@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "tsx --env-file=.env.development src/main.ts",
     "main": "tsc && node ./dist/main",
