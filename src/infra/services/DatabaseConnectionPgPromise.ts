@@ -1,11 +1,7 @@
 import pgp from "pg-promise";
+import DatabaseConnection from "../../application/services/DatabseConnection";
 
-export default interface DatabaseConnection {
-  query(statement: string, params: any[]): Promise<any>;
-  close(): Promise<void>;
-}
-
-export class PgPromiseAdapter implements DatabaseConnection {
+export default class DatabaseConnectionPgPromise implements DatabaseConnection {
   connection: any;
 
   constructor() {

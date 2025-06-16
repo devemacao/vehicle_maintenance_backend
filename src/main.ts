@@ -1,11 +1,19 @@
-import express from "express";
-import { PgPromiseAdapter } from "./DatabaseConnection";
+import express, { Request, Response } from "express";
+import DatabseConnectionPgPromise from "./infra/services/DatabaseConnectionPgPromise";
+import NodePgMigrateService from "./infra/services/MigrationServiceNodePgMigrate";
+import MigrationsController from "./infra/controllers/MigrationsController";
+import GetMigrations from "./application/usecases/GetMigrations";
 
 const PORT = process.env.PORT || 3000;
+
 const app = express();
 
+const migrationsService = new NodePgMigrateService();
+const getMigrations = new GetMigrations(migrationsService);
+const migrationsController = new MigrationsController(getMigrations);
+
 app.get("/", async (req, res) => {
-  const database = new PgPromiseAdapter();
+  const database = new DatabseConnectionPgPromise();
   try {
     const [databaseVersionResult] = await database.query(
       "SHOW server_version;",
@@ -22,5 +30,7 @@ app.get("/", async (req, res) => {
     await database.close();
   }
 });
+
+app.use("/migrations", migrationsController.router);
 
 app.listen(PORT, () => console.log(`Listenning on port ${PORT}`));
