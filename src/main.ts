@@ -3,6 +3,7 @@ import DatabseConnectionPgPromise from "./infra/services/DatabaseConnectionPgPro
 import NodePgMigrateService from "./infra/services/MigrationServiceNodePgMigrate";
 import MigrationsController from "./infra/controllers/MigrationsController";
 import GetMigrations from "./application/usecases/GetMigrations";
+import RunMigrations from "./application/usecases/RunMigrations";
 
 const PORT = process.env.PORT || 3000;
 
@@ -10,7 +11,11 @@ const app = express();
 
 const migrationsService = new NodePgMigrateService();
 const getMigrations = new GetMigrations(migrationsService);
-const migrationsController = new MigrationsController(getMigrations);
+const runMigrations = new RunMigrations(migrationsService);
+const migrationsController = new MigrationsController(
+  getMigrations,
+  runMigrations
+);
 
 app.get("/", async (req, res) => {
   const database = new DatabseConnectionPgPromise();

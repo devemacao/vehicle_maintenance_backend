@@ -26,4 +26,16 @@ export default class MigrationServiceNodePgMigrate
     );
     return migrations;
   }
+
+  async runPendingMigrations(): Promise<Migration[]> {
+    const migratedMigrations = await migrationRunner.runner({
+      ...this.options,
+      dryRun: false,
+    });
+    const migrations = migratedMigrations.map(
+      (migration) =>
+        new Migration(migration.name, new Date(migration.timestamp))
+    );
+    return migrations;
+  }
 }
